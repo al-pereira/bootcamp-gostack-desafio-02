@@ -1,14 +1,11 @@
-// Importações
 import Sequelize from 'sequelize';
 import User from '../app/models/User';
+import File from '../app/models/File';
 import databaseConfig from '../config/database';
 
-// Array (lista) de models
-const lstModels = [User];
+const lstModels = [User, File];
 
-// Classe
 class Database {
-    // Construtor da classe
     constructor() {
         this.init();
     }
