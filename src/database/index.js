@@ -1,22 +1,30 @@
 import Sequelize from 'sequelize';
 import User from '../app/models/User';
 import File from '../app/models/File';
+import Meetup from '../app/models/Meetup';
+import Subscription from '../app/models/Subsciption';
 import databaseConfig from '../config/database';
 
-const lstModels = [User, File];
+const lstModels = [User, File, Meetup, Subscription];
 
 class Database {
     constructor() {
+        this.connection = new Sequelize(databaseConfig);
+
         this.init();
+        this.associate();
     }
 
     init() {
-        // Cria uma instância da conexão
-        this.connection = new Sequelize(databaseConfig);
-
-        /* Percorre a lista modelos no array e inicializa a conexão
-           com o banco de dados */
         lstModels.map(m => m.init(this.connection));
+    }
+
+    associate() {
+        lstModels.forEach(model => {
+            if (model.associate) {
+                model.associate(this.connection.models);
+            }
+        });
     }
 }
 
